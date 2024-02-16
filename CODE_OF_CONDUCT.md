@@ -1,6 +1,6 @@
 # Sprint 1 SE CW
 
-Name: Micail Bakhshzaad BAK22529047, Zeeshan Haider Kazmi KAZ22527866
+Name: Micail Bakhshzaad BAK22529047, Zeeshan Haider Kazmi KAZ22527866, Catherine Binyamin AND555039, Evangeline Anderson(AND22529596, Betty Kallay KAL22522555
 
 ## Code Of Conduct
 
@@ -104,3 +104,15 @@ Date Signed: 12/02/2024
 Signature: Zeeshan Kazmi (KAZ22527866)
 
 Date Signed: 12/02/2024
+
+Signature: Catherine Binyamin (AND555039)
+
+Date Signed: 16/02/2024
+
+Signature: Evangeline Anderson (AND22529596)
+
+Date Signed: 16/02/2024
+
+Signature: Betty Kallay (KAL22522555)
+
+Date Signed: 16/02/2024
