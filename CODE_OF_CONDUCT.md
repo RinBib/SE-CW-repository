@@ -73,21 +73,21 @@ Should there be an unfortunate infringement of our Code Of Conduct, a system has
 
 violations are mostly inadvertent and have little influence on the project. Correction is the better course of action than punishing. These can include:
 
-- Written Warnings
-- Verbal Reminders
+- Verbal Feedbakc: A private discussion about the specific violation, as well as the reasons behind poor conduct and suggestions for improvement.
+- Performance Plan: A organized plan with expectations for conduct, as well as deadlines and milestones for change, should be implemented for persistent minor infractions.
 
 ### Moderate
 
 This is where the project may be impacted by moderate transgression, which is more serious and still may stay in a range that allows beneficial corrections.
 
-- Mandated further inquiry
+- Action: One would have to conduct more study on the subject or conversation they missed on without any reasoning on why they were unable to attend to.
 
 ### Severe
 
 Actions that are defined as intentional that significantly impact the project
 
-- Report to higher supervision
-- Demotion/Termination
+- Investigation: To guarentee fairness and acquire all relevant information, a through investigation should be carried out prior to using severe measures such as a demotion
+- Documentation: For the purpose of openness and in the event of a disagreement, it is important to record all conclusions, conversations and choices taken during the process.
 
 # Ask Questions & Feedback
 
