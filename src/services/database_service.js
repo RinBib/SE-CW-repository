@@ -1,3 +1,5 @@
+const mysql = require("mysql")
+
 /* Setup database connection */
 const db = mysql.createConnection({
     host: process.env.DATABASE_HOST || "localhost",
@@ -5,3 +7,6 @@ const db = mysql.createConnection({
     password: "password",
     database: "world",
   });
+
+// database_service.js
+module.exports = db;

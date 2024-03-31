@@ -1,31 +1,22 @@
-/* Import dependencies */
 const express = require("express");
-const mysql = require("mysql2");
 const path = require("path");
-import DatabaseService from "./services/database_service.js";
+const DatabaseService = require("./services/database_service");
 
-/* Create express instance */
 const app = express();
-const port = 3000;
 
-/* Load view engine to render pug files */
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-const db = await DatabaseService.connect();
-const { conn } = db;
+const db = DatabaseService.connect();
 
-/* Landing route */
 app.get("/", (req, res) => {
   res.render('home');
 });
 
-// Returns about page
 app.get("/about", (req, res) => {
   res.render("about");
 });
 
-// Returns an array of cities from the database
 app.get("/cities", (req, res) => {
   db.execute("SELECT * FROM `city`", (err, rows, fields) => {
     console.log(`/cities: ${rows.length} rows`);
@@ -33,7 +24,11 @@ app.get("/cities", (req, res) => {
   });
 });
 
-// Run server!
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
+module.exports = app;
+
+if (require.main === module) {
+  const port = 3000;
+  app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+  });
+}
