@@ -11,3 +11,22 @@ html
         
       .layout-content
         block content
+    // In the footer of every page, include a quick reference link
+    .footer 
+      p This data is open source. If you wish to cite it, you can copy the following reference.
+      p(id="reference") [E. Anderson, M. Bakhshzaad, C. Binyamin, B. Kallay, Z. Kazmi, <i>Population Data Search</i> (2024)]
+      button(id="copyButton") Copy reference
+
+    script.
+      const copyButton = document.getElementById('copyButton');
+      const reference = document.getElementById('reference');
+
+      copyButton.addEventListener('click', () => {
+          const textArea = document.createElement('textarea');
+          textArea.value = reference.innerText;
+          document.body.appendChild(textArea);
+          textArea.select();
+          document.execCommand('copy');
+          document.body.removeChild(textArea);
+          alert('Reference copied to clipboard');
+      });
