@@ -18,6 +18,7 @@ services:
     depends_on:
       - database
     restart: on-failure
+    command: supervisor -e '.' index.js
     environment:
       - DATABASE_HOST=database
     ports:

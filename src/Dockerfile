@@ -9,10 +9,10 @@ WORKDIR /app
 COPY . .
 
 # Install dependencies (inside the container)
-RUN npm install
+RUN npm install && npm install -g supervisor
 
 # Expose server port
 EXPOSE 3000
 
 # Start server using npm script
-CMD [ "npm", "run", "start" ]
+CMD [ "npm", "start" ]
