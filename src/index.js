@@ -32,3 +32,40 @@ if (require.main === module) {
     console.log(`Server running on port ${port}`);
   });
 }
+
+// register
+app.get('/data/register', function (req, res) {
+  res.render('data/register');
+ });
+
+ // login
+ app.get('/data/login', function (req, res) {
+  res.render('login');
+ });
+
+// add password to existing user if there is one
+app.post('/set-password', function (req, res) 
+{
+  params = req.body;
+  var user = new User(params.email);
+  try {
+      user.getIdFromEmail().then( uId => 
+      {
+          if(uId) 
+          {
+              // If a valid, existing user is found, set the password and redire 
+              user.setUserPassword(params.password).then ( result => {
+                  res.redirect('/single-student/' + uId);
+              });
+          }
+          else {
+              // If no existing user is found, add a new one
+              user.addUser(params.email).then( Promise => {
+                  res.send('Perhaps a page where a new user sets a programme');
+              });
+          }
+      })
+  } catch (err) {
+      console.error(`Error while adding password `, err.message);
+  }
+});
