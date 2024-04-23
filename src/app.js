@@ -1,8 +1,8 @@
 // Register
-app.get('/register', function (req, res) {
-    res.render('register');
+app.get('/data/register', function (req, res) {
+    res.render('data/register');
    });
    // Login
-   app.get('/login', function (req, res) {
+   app.get('/data/login', function (req, res) {
     res.render('login');
    });

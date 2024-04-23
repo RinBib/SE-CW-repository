@@ -1,7 +1,7 @@
-const { User } = require("./models/user");
+const { User } = require("./src/user");
 
-// Get the functions in the db.js file to use
-const db = require('../services/db');
+// require database_service
+const db = require('../services/database_service.js');
 class User {
  // Id of the user
  id;
