@@ -68,3 +68,17 @@ async getIdFromEmail()
         return false;
     }
 }
+
+// compare entered password against passwored stored in database
+async authenticate(submitted)
+{
+    var sql = "SELECT password FROM Users WHERE id = ?";
+    const result = await db.query(sql, [this.id]);
+    const match = await bcrypt.compare(submitted, result[0].password);
+    if (match == true) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
