@@ -1,3 +1,16 @@
+// encrypt and compare passwords
+const bcrypt = require("bcryptjs");
+
+async setUserPassword(password) 
+{
+    const pw = await bcrypt.hash(password, 10);
+    var sql = "UPDATE Users SET password = ? WHERE Users.id = ?"
+    const result = await db.query(sql, [pw, this.id]);
+    return true;
+}
+
+
+// require user
 const { User } = require("./src/user");
 
 // require database_service
