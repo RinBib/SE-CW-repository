@@ -1,3 +1,5 @@
+const { User } = require("./models/user");
+
 // Get the functions in the db.js file to use
 const db = require('../services/db');
 class User {
