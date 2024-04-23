@@ -75,23 +75,23 @@ app.post('/authenticate', function (req, res) {
   params = req.body;
   var user = new User(params.email);
   try {
-  user.getIdFromEmail().then(uId => {
-  if (uId) {
-  user.authenticate(params.password).then(match => {
-  if (match) {
-  res.redirect('/single-student/' + uId);
-  }
-  else {
-  // TODO improve the user journey here
-  res.send('invalid password');
-  }
-  });
-  }
-  else {
-  res.send('invalid email');
-  }
+    user.getIdFromEmail().then(uId => {
+    if (uId) {
+      user.authenticate(params.password).then(match => {
+        if (match) {
+          res.redirect('/single-student/' + uId);
+        }
+        else {
+          // TODO improve the user journey here
+          res.send('invalid password');
+        }
+      });
+    }
+    else {
+      res.send('invalid email');
+    }
   })
-  } catch (err) {
+} catch (err) {
   console.error(`Error while comparing `, err.message);
-  }
- });
+}
+});
