@@ -9,6 +9,16 @@ async setUserPassword(password)
     return true;
 }
 
+// create new record for new user
+async addUser(password) 
+{
+    const pw = await bcrypt.hash(password, 10);
+    var sql = "INSERT INTO Users (email, password) VALUES (? , ?)";
+    const result = await db.query(sql, [this.email, pw]);
+    console.log(result.insertId);
+    this.id = result.insertId;
+    return true;
+}
 
 // require user
 const { User } = require("./src/user");
