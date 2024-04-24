@@ -25,34 +25,61 @@ const { User } = require("./src/user");
 
 // require database_service
 const db = require('../services/database_service.js');
+
 class User {
- // Id of the user
- id;
- // Email of the user
- email;
- constructor(email) {
- this.email = email;
- }
+  // Id of the user
+  id;
+  // Email of the user
+  email;
 
- // Get an existing user id from an email address, or return false if not found
- async getIdFromEmail() {
+  constructor(email) {
+    this.email = email;
+  }
 
- }
- // Add a password to an existing user
- async setUserPassword(password) {
- }
+  // Get an existing user id from an email address, or return false if not found
+  async getIdFromEmail() {
+    const query = 'SELECT id FROM users WHERE email = ?';
+    const [rows, _] = await db.execute(query, [this.email]);
+    if (rows.length > 0) {
+      return rows[0].id;
+    } else {
+      return false;
+    }
+  }
 
- // Add a new record to the users table
- async addUser(password) {
+  // Add a password to an existing user
+  async setUserPassword(password) {
+    const userId = await this.getIdFromEmail();
+    if (!userId) {
+      throw new Error('User not found');
+    }
+    const query = 'UPDATE users SET password = ? WHERE id = ?';
+    await db.execute(query, [password, userId]);
+  }
 
- }
- // Test a submitted password against a stored password
- async authenticate(submitted) {
- }
+  // Add a new record to the users table
+  async addUser(password) {
+    const query = 'INSERT INTO users (email, password) VALUES (?, ?)';
+    await db.execute(query, [this.email, password]);
+  }
+
+  // Test a submitted password against a stored password
+  async authenticate(submitted) {
+    const query = 'SELECT password FROM users WHERE email = ?';
+    const [rows, _] = await db.execute(query, [this.email]);
+    if (rows.length > 0) {
+      const storedPassword = rows[0].password;
+      return storedPassword === submitted;
+    } else {
+      return false;
+    }
+  }
 }
+
 module.exports = {
- User
-}
+  User
+};
+
 
 // check if entered email exists in the database
 async getIdFromEmail() 
