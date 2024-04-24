@@ -91,7 +91,6 @@ app.post('/authenticate', function (req, res) {
           res.redirect('/single-student/' + uId);
         }
         else {
-          // TODO improve the user journey here
           res.send('invalid password');
         }
       });
@@ -103,4 +102,10 @@ app.post('/authenticate', function (req, res) {
 } catch (err) {
   console.error(`Error while comparing `, err.message);
 }
+});
+
+// Logout
+app.get('/logout', function (req, res) {
+  req.session.destroy();
+  res.redirect('/login');
 });
