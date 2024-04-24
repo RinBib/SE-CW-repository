@@ -4,7 +4,7 @@ const DatabaseService = require("./services/database_service");
 const app = express();
 
 // allows the site to know if a user is logged in, and the id of said user
-var session = require('express-session');
+const session = require('express-session');
 app.use(session({
   secret: 'secretkeysdfjsflyoifasd',
   resave: false,
