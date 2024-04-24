@@ -1,8 +1,17 @@
 const express = require("express");
 const path = require("path");
 const DatabaseService = require("./services/database_service");
-
 const app = express();
+
+// allows the site to know if a user is logged in, and the id of said user
+var session = require('express-session');
+app.use(session({
+  secret: 'secretkeysdfjsflyoifasd',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false }
+}));
+
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');

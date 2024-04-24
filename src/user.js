@@ -82,3 +82,32 @@ async authenticate(submitted)
         return false;
     }
 }
+
+// set sessions
+app.post('/authenticate', function (req, res) {
+    params = req.body;
+    var user = new User(params.email);
+    try {
+        user.getIdFromEmail().then(uId => {
+            if (uId) {
+                user.authenticate(params.password).then(match => {
+                    if (match) {
+                        // Set the session for this user
+                        req.session.uid = uId;
+                        req.session.loggedIn = true;
+                        res.redirect('/single-student/' + uId);
+                    }
+                    else {
+                        // TODO improve the user journey here
+                        res.send('invalid password');
+                    }
+                });
+            }
+            else {
+                res.send('invalid email');
+            }
+        })
+    } catch (err) {
+        console.error(`Error while comparing `, err.message);
+    }
+});
