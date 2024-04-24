@@ -1,6 +1,6 @@
 const request = require('supertest');
 const express = require('express');
-const app = require('../index'); // assuming your app file is named 'app.js'
+const app = require('../index'); 
 
 describe('Test routes', () => {
   it('GET / responds with 200', async () => {
@@ -16,13 +16,13 @@ describe('Test routes', () => {
   it('GET /cities responds with 200 and renders cities template', async () => {
     const res = await request(app).get('/cities');
     expect(res.statusCode).toEqual(200);
-    expect(res.text).toContain('Cities'); // assuming 'cities' template contains 'Cities'
+    expect(res.text).toContain('Cities'); 
   });
 });
 
 describe('Test database connection', () => {
   it('Database connection should be successful', async () => {
-    const db = require('../services/database_service'); // adjust the path accordingly
+    const db = require('../services/database_service'); 
     const connection = db.connect();
     expect(connection).toBeDefined();
   });
