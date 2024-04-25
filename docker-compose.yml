@@ -4,7 +4,7 @@ services:
   database:
     image: mysql
     volumes:
-      - ./data/world/:/docker-entrypoint-initdb.d/
+      - ./data/:/docker-entrypoint-initdb.d/
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_USER=user
@@ -12,18 +12,6 @@ services:
       - MYSQL_DATABASE=world
     ports:
       - 3306:3306
-  
-  users-database:
-    image: mysql
-    volumes:
-      - ./data/users/:/docker-entrypoint-initdb.d/
-    environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_USER=user
-      - MYSQL_PASSWORD=password
-      - MYSQL_DATABASE=world
-    ports:
-      - 3307:3306
 
   webserver:
     build: ./src
