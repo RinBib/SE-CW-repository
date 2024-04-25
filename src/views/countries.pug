@@ -1,0 +1,48 @@
+extends layout.pug
+
+block head
+  link(rel="stylesheet", href="/cities.css")
+
+block content
+  h2 Countries 
+  table
+    thead
+      th Name 
+      th.text-center Country
+      th Code Alpha 2
+      th Code Alpha 3
+      th Continent 
+      th Region 
+      th Surface Area 
+      th Independence Year 
+      th Population 
+      th Life Expectancy 
+      th GNP 
+      th GNPOld 
+      th Local Name 
+      th Government Form 
+      th Head of State 
+      th Capital Name 
+    tbody
+      each row, i in rows
+        tr
+          td.fit
+            a(href=`/cities/${i}`) #{i + 1}
+          td.fit #{row.CountryCode}
+          td #{row.Name}
+          - const population = new Intl.NumberFormat().format(row.Population);
+          td.fit.number #{population}
+          td #{row.Code2}
+          td #{row.Code}
+          td #{row.Continent}
+          td #{row.Region}
+          td #{row.SurfaceArea}
+          td #{row.IndepYear}
+          td #{row.Population}
+          td #{row.GNP}
+          td #{row.GNPOld}
+          td #{row.LocalName}
+          td #{row.GovernmentForm}
+          td #{row.HeadOfState}
+          td #{row.CapitalName}
+
