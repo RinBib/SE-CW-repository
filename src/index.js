@@ -1,6 +1,6 @@
 const express = require("express");
 const path = require("path");
-const DatabaseService = require("./services/database_service");
+const DatabaseService = require("/services/database_service");
 
 const app = express();
 
