@@ -1,13 +1,12 @@
 const express = require("express");
 const path = require("path");
+const bodyParser = require("body-parser"); // Added body-parser
+const session = require('express-session');
 const DatabaseService = require("./services/database_service");
 const app = express();
 
-// Use a favicon for the site
-app.use('/static/favicon.ico', express.static(path.join(__dirname, './static/favicon.ico')));
-
-// allows the site to know if a user is logged in, and the id of said user
-const session = require('express-session');
+// Middleware
+app.use(bodyParser.urlencoded({ extended: true })); // Body parser middleware
 app.use(session({
   secret: 'secretkeysdfjsflyoifasd',
   resave: false,
@@ -15,12 +14,14 @@ app.use(session({
   cookie: { secure: false }
 }));
 
+// Database connection
+const db = DatabaseService.connect();
 
+// Views setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-const db = DatabaseService.connect();
-
+// Routes
 app.get("/", (req, res) => {
   res.render('home');
 });
@@ -31,80 +32,75 @@ app.get("/about", (req, res) => {
 
 app.get("/cities", (req, res) => {
   db.execute("SELECT * FROM `city`", (err, rows, fields) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send('Internal Server Error');
+    }
     console.log(`/cities: ${rows.length} rows`);
-    return res.render('cities', {rows:rows});
+    return res.render('cities', { rows: rows });
   });
 });
 
-module.exports = app;
-
-if (require.main === module) {
-  const port = 3000;
-  app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
-  });
-}
-
-// register
-app.get('/data/register', function (req, res) {
+// Register
+app.get('/register', function (req, res) {
   res.render('data/register');
- });
-
- // login
- app.get('/data/login', function (req, res) {
-  res.render('login');
- });
-
-// add password to existing user if there is one
-app.post('/set-password', function (req, res) 
-{
-  params = req.body;
-  var user = new User(params.email);
-  try {
-      user.getIdFromEmail().then( uId => 
-      {
-          if(uId) 
-          {
-              // If a valid, existing user is found, set the password and redire 
-              user.setUserPassword(params.password).then ( result => {
-                  res.redirect('/single-student/' + uId);
-              });
-          }
-          else {
-              // If no existing user is found, add a new one
-              user.addUser(params.email).then( Promise => {
-                  res.send('Perhaps a page where a new user sets a programme');
-              });
-          }
-      })
-  } catch (err) {
-      console.error(`Error while adding password `, err.message);
-  }
 });
 
-// redirect the user after comparing password or display error
+// Login
+app.get('/login', function (req, res) {
+  res.render('login');
+});
+
+// Set password for existing user or add new user
+app.post('/set-password', function (req, res) {
+  // Assuming User class is defined or imported correctly
+  const params = req.body;
+  const user = new User(params.email);
+  user.getIdFromEmail().then(uId => {
+    if (uId) {
+      user.setUserPassword(params.password).then(result => {
+        res.redirect('/single-student/' + uId);
+      }).catch(err => {
+        console.error(err);
+        res.status(500).send('Internal Server Error');
+      });
+    } else {
+      user.addUser(params.email).then(() => {
+        res.send('Perhaps a page where a new user sets a programme');
+      }).catch(err => {
+        console.error(err);
+        res.status(500).send('Internal Server Error');
+      });
+    }
+  }).catch(err => {
+    console.error(`Error while adding password `, err.message);
+    res.status(500).send('Internal Server Error');
+  });
+});
+
+// Authenticate user
 app.post('/authenticate', function (req, res) {
-  params = req.body;
-  var user = new User(params.email);
-  try {
-    user.getIdFromEmail().then(uId => {
+  const params = req.body;
+  const user = new User(params.email);
+  user.getIdFromEmail().then(uId => {
     if (uId) {
       user.authenticate(params.password).then(match => {
         if (match) {
           res.redirect('/single-student/' + uId);
+        } else {
+          res.send('Invalid password');
         }
-        else {
-          res.send('invalid password');
-        }
+      }).catch(err => {
+        console.error(err);
+        res.status(500).send('Internal Server Error');
       });
+    } else {
+      res.send('Invalid email');
     }
-    else {
-      res.send('invalid email');
-    }
-  })
-} catch (err) {
-  console.error(`Error while comparing `, err.message);
-}
+  }).catch(err => {
+    console.error(`Error while comparing `, err.message);
+    res.status(500).send('Internal Server Error');
+  });
 });
 
 // Logout
@@ -112,3 +108,11 @@ app.get('/logout', function (req, res) {
   req.session.destroy();
   res.redirect('/login');
 });
+
+// Start server
+const port = 3000;
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});
+
+module.exports = app;
