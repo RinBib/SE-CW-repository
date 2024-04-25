@@ -3,6 +3,9 @@ const path = require("path");
 const DatabaseService = require("./services/database_service");
 const app = express();
 
+// Use a favicon for the site
+app.use('/static/favicon.ico', express.static(path.join(__dirname, './static/favicon.ico')));
+
 // allows the site to know if a user is logged in, and the id of said user
 const session = require('express-session');
 app.use(session({
