@@ -1,7 +1,6 @@
 const express = require("express");
 const path = require("path");
-const DatabaseService = require("./services/database_service");
-const app = express();
+const DatabaseService = require("/services/database_service");
 
 // allows the site to know if a user is logged in, and the id of said user
 const session = require('express-session');
