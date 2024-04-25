@@ -1,0 +1,20 @@
+extends layout.pug
+
+block head
+  link(rel="stylesheet", href="/cities.css")
+
+block content
+  h2 Country Languages 
+  table
+    thead
+      th Country Code
+      th.text-center Language 
+      th Is Official 
+      th Percentage 
+    tbody
+      each row, i in rows
+        tr
+          td.fit #{row.CountryCode}
+          td.fit #{row.Language}
+          td.fit #{row.IsOfficial}
+          td.fit #{row.Percentage}

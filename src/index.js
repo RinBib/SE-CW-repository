@@ -1,13 +1,16 @@
 const express = require("express");
 const path = require("path");
-const DatabaseService = require("./services/database_service");
+const connection = require("./services/database_service.js");
 const app = express();
+const session = require('express-session');
 
 // Use a favicon for the site
 app.use('/static/favicon.ico', express.static(path.join(__dirname, './static/favicon.ico')));
 
+// Assets Server
+app.use(express.static(path.join(__dirname, 'static')));
+
 // allows the site to know if a user is logged in, and the id of said user
-const session = require('express-session');
 app.use(session({
   secret: 'secretkeysdfjsflyoifasd',
   resave: false,
@@ -19,21 +22,53 @@ app.use(session({
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-const db = DatabaseService.connect();
-
 app.get("/", (req, res) => {
   res.render('home');
 });
 
-app.get("/about", (req, res) => {
-  res.render("about");
+app.get("/cities", async (req, res) => {
+  const sql = "SELECT * FROM `city`";
+  try {
+    const [rows, fields] = await connection.query(sql);
+    res.render('cities', {rows});
+  } catch (error) {
+    console.error(error);
+    if (error.code === 'ER_NO_SUCH_TABLE') {
+      res.status(500).send("Database table does not exist.");
+    } else {
+      res.status(500).send("An error occurred.");
+    }
+  }
 });
 
-app.get("/cities", (req, res) => {
-  db.execute("SELECT * FROM `city`", (err, rows, fields) => {
-    console.log(`/cities: ${rows.length} rows`);
-    return res.render('cities', {rows:rows});
-  });
+app.get("/countries", async (req, res) => {
+  const sql = "SELECT * FROM `country`";
+  try {
+    const [rows, fields] = await connection.query(sql);
+    res.render('countries', {rows});
+  } catch (error) {
+    console.error(error);
+    if (error.code === 'ER_NO_SUCH_TABLE') {
+      res.status(500).send("Database table does not exist.");
+    } else {
+      res.status(500).send("An error occurred.");
+    }
+  }
+});
+
+app.get("/countrylanguages", async (req, res) => {
+  const sql = "SELECT * FROM `countrylanguage`";
+  try {
+    const [rows, fields] = await connection.query(sql);
+    res.render('countrylanguages', {rows});
+  } catch (error) {
+    console.error(error);
+    if (error.code === 'ER_NO_SUCH_TABLE') {
+      res.status(500).send("Database table does not exist.");
+    } else {
+      res.status(500).send("An error occurred.");
+    }
+  }
 });
 
 module.exports = app;
@@ -47,7 +82,7 @@ if (require.main === module) {
 
 // register
 app.get('/data/register', function (req, res) {
-  res.render('data/register');
+  res.render('register');
  });
 
  // login

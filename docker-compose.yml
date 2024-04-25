@@ -21,5 +21,6 @@ services:
     command: supervisor -e '.' index.js
     environment:
       - DATABASE_HOST=database
+      - USER_DATABASE_HOST=users-database
     ports:
       - 3000:3000
