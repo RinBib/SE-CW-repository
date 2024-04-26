@@ -4133,6 +4133,20 @@ INSERT INTO `city` VALUES (4079,'Rafah','PSE','Rafah',92020);
 commit;
 
 --
+-- Triggers `city`
+--
+DELIMITER $$
+CREATE TRIGGER `PreventDuplicateCity` BEFORE INSERT ON `city` FOR EACH ROW BEGIN
+    DECLARE city_count INT;
+    SET city_count = (SELECT COUNT(*) FROM city WHERE Name = NEW.Name AND CountryCode = NEW.CountryCode);
+    IF city_count > 0 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Duplicate city record';
+    END IF;
+END
+$$
+DELIMITER ;
+
+--
 -- Table structure for table `country`
 --
 
@@ -4405,6 +4419,20 @@ INSERT INTO `country` VALUES ('ZAF','South Africa','Africa','Southern Africa',12
 INSERT INTO `country` VALUES ('ZMB','Zambia','Africa','Eastern Africa',752618.00,1964,9169000,37.2,3377.00,3922.00,'Zambia','Republic','Frederick Chiluba',3162,'ZM');
 INSERT INTO `country` VALUES ('ZWE','Zimbabwe','Africa','Eastern Africa',390757.00,1980,11669000,37.8,5951.00,8670.00,'Zimbabwe','Republic','Robert G. Mugabe',4068,'ZW');
 commit;
+
+--
+-- Triggers `country`
+--
+DELIMITER $$
+CREATE TRIGGER `PreventDuplicateCountry` BEFORE INSERT ON `country` FOR EACH ROW BEGIN
+    DECLARE country_count INT;
+    SET country_count = (SELECT COUNT(*) FROM country WHERE Code = NEW.Code);
+    IF country_count > 0 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Duplicate country record';
+    END IF;
+END
+$$
+DELIMITER ;
 
 --
 -- Table structure for table `countrylanguage`
@@ -5415,6 +5443,20 @@ INSERT INTO `countrylanguage` VALUES ('ZWE','Ndebele','F',16.2);
 INSERT INTO `countrylanguage` VALUES ('ZWE','Nyanja','F',2.2);
 INSERT INTO `countrylanguage` VALUES ('ZWE','Shona','F',72.1);
 commit;
+
+--
+-- Triggers `countrylanguage`
+--
+DELIMITER $$
+CREATE TRIGGER `PreventDuplicateCountryLanguage` BEFORE INSERT ON `countrylanguage` FOR EACH ROW BEGIN
+    DECLARE language_count INT;
+    SET language_count = (SELECT COUNT(*) FROM countrylanguage WHERE CountryCode = NEW.CountryCode AND Language = NEW.Language);
+    IF language_count > 0 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Duplicate country language record';
+    END IF;
+END
+$$
+DELIMITER ;
 
 --
 -- Dumping events for database 'world'
