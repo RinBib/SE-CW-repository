@@ -1,0 +1,51 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: -5px;
+}
+
+.container.reverse {
+    flex-direction: row-reverse;
+}
+
+.image {
+    flex: 1;
+    max-width: 50%;
+}
+
+.image img {
+    width: 150%;
+    height: auto;
+}
+
+.text {
+    flex: 1;
+    max-width: 50%;
+    padding: 0 20px;
+    font-size: 40px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: ease in 0.3s;
+    color: black;
+}
+
+.text:hover {
+    color: lightblue;
+}
+
+.title {
+    flex: 1;
+    max-width: 50%;
+    padding: 0 20px;
+    font-size: 58px;
+    font-weight: 600;
+    text-align: center;
+}

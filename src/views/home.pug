@@ -1,4 +1,11 @@
 extends layout.pug
 
 block content
-  h2 Hello world!
+  link(rel="stylesheet", href="home-page.css")
+  h3.title Population Data Search
+  .container
+    img.image(src="/counteries-table.png", alt="counteries table")
+    p.text Here you'll be able to browse continent, region, country, district, and city data.
+  div(class="container reverse")
+    img.image(src="/cities-table.png")
+    a.text(href="/cities") Get Started Here
