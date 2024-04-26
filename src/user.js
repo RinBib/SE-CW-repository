@@ -1,7 +1,7 @@
 // encrypt and compare passwords
 const bcrypt = require("bcryptjs");
 
-async setUserPassword(password) 
+async function setUserPassword(password) 
 {
     const pw = await bcrypt.hash(password, 10);
     var sql = "UPDATE Users SET password = ? WHERE Users.id = ?"
@@ -10,7 +10,7 @@ async setUserPassword(password)
 }
 
 // create new record for new user
-async addUser(password) 
+async function addUser(password) 
 {
     const pw = await bcrypt.hash(password, 10);
     var sql = "INSERT INTO Users (email, password) VALUES (? , ?)";
@@ -82,7 +82,7 @@ module.exports = {
 
 
 // check if entered email exists in the database
-async getIdFromEmail() 
+async function getIdFromEmail() 
 {
     var sql = "SELECT id FROM Users WHERE Users.email = ?";
     const result = await db.query(sql, [this.email]);
@@ -97,7 +97,7 @@ async getIdFromEmail()
 }
 
 // compare entered password against passwored stored in database
-async authenticate(submitted)
+async function authenticate(submitted)
 {
     var sql = "SELECT password FROM Users WHERE id = ?";
     const result = await db.query(sql, [this.id]);
